@@ -1,11 +1,21 @@
+using MyShop.Aplication;
 using MyShop.Aplication.Client.Pages;
 using MyShop.Aplication.Components;
+using MyShop.Aplication.Handlers;
+using MyShop.Core.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddHttpClient(Configuration.ApiName, client =>
+    client.BaseAddress = new Uri(Configuration.Api));
+
+
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+
 
 var app = builder.Build();
 
