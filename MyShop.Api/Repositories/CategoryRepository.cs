@@ -8,7 +8,7 @@ public class CategoryRepository(AppDbcontext db)
 {
     private readonly AppDbcontext _db = db;
 
-    public async Task<IList<Category>> GetAsync()
+    public async Task<List<Category>> GetAsync()
     => await _db.Categories
             .AsNoTracking()
             .ToListAsync();
@@ -22,21 +22,16 @@ public class CategoryRepository(AppDbcontext db)
         await _db.SaveChangesAsync();
     }
     
-    public async Task UpdateAsync(Category model,  int id)
+    public async Task UpdateAsync(Category category)
     {
-        var category =  await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
-
-        if (category != null)
-            _db.Categories.Update(category);
+        _db.Categories.Update(category);
         await _db.SaveChangesAsync();
         
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(Category category)
     {
-        var category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
-        if (category != null)
-            _db.Categories.Remove(category);
+        _db.Categories.Remove(category);
         await _db.SaveChangesAsync();
     }
 }
