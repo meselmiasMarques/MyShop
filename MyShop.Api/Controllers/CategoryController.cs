@@ -60,7 +60,7 @@ public class CategoryController(
         var category = new Category
         {
             Id = 0,
-            Title = model.Name
+            Title = model.Title
         };
 
          await _repository.CreateAsync(category);
@@ -79,7 +79,7 @@ public class CategoryController(
         if (category == null)
             return NotFound(new Core.Responses.Response<Category>("Categoria não encontrada"));
         
-        category.Title = model.Name;
+        category.Title = model.Title;
         
         await _repository.UpdateAsync(category);
         return Ok(new Core.Responses.Response<Category>(category));
