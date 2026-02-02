@@ -1,13 +1,14 @@
 using MyShop.Core.Model;
+using MyShop.Core.Requests.Categories;
 using MyShop.Core.Responses;
 
 namespace MyShop.Core.Handlers;
 
 public interface ICategoryHandler
 {
-    Task<Response<Category>> Create(Category category);
-    Task<Response<Category>> Update(Category category,int id);
-    Task<Response<Category>> Delete(int id);
-    Task<Response<Category>> GetById(int id);
+    Task<Response<Category>> CreateAsync(EditorCategoryRequest model);
+    Task<Response<Category>> UpdateAsync(EditorCategoryRequest model,int id);
+    Task<Response<Category>> DeleteAsync(EditorCategoryRequest model);
+    Task<Response<Category>> GetByIdAsync(EditorCategoryRequest model);
     Task<Response<List<Category>>> GetAll();
 }

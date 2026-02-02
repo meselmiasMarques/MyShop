@@ -1,22 +1,30 @@
+using System.Text.Json.Serialization;
+
 namespace MyShop.Core.Responses;
 
 public class Response<T> where T : class
 {
-    public Response(string error)
-    {
-        Errors.Add(error);
-    }
-    
-    public Response(T data)
-        =>  Data = data;
+    private readonly int _code;
 
+    [JsonConstructor]
     public Response()
+        => _code = 200;
+
+    public Response(
+        T? data,
+        int code = 200,
+        string? message = null)
     {
+        Data = data;
+        Message = message;
+        _code = code;
     }
 
-    public T Data { get; set; }
-    public string Error { get; set; }
-    public List<string> Errors { get; set; } = new();
+    public T? Data { get; set; }
+    public string? Message { get; set; }
 
+    [JsonIgnore]
+    public bool IsSuccess
+        => _code is >= 200 and <= 299;
 
 }

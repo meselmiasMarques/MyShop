@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using MyShop.Api.Data;
+using MyShop.Api.Handlers;
 using MyShop.Api.Repositories;
+using MyShop.Core.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<AppDbcontext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 
 builder.Services.AddTransient<CategoryRepository>();
 

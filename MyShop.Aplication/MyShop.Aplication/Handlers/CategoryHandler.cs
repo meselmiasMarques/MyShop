@@ -1,5 +1,6 @@
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
+using MyShop.Core.Requests.Categories;
 using MyShop.Core.Responses;
 
 namespace MyShop.Aplication.Handlers;
@@ -9,31 +10,31 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
     private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.ApiName);
 
 
-    public async Task<Response<Category>> Create(Category category)
+    public async Task<Response<Category>> Create(EditorCategoryRequest request)
     {
-        var result = await _client.PostAsJsonAsync("v1/categories", category);
-
-        return await result.Content.ReadFromJsonAsync<Response<Category>>()
-               ?? new Response<Category>("Erro ao Criar Categoria");
+        var result = await _client.PostAsJsonAsync("api/Category", request);
+        
+        return await result.Content.ReadFromJsonAsync<Response<Category?>>() 
+            ?? new Response<Category?>(null,400,"Falha ao Criar Categoria");
     }
 
-    public Task<Response<Category>> Update(Category category, int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Response<Category>> Delete(int id)
+    public async Task<Response<Category>> Update(EditorCategoryRequest model)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Response<Category>> GetById(int id)
+    public async Task<Response<Category>> Delete(EditorCategoryRequest model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Response<Category>> GetById(EditorCategoryRequest model)
     {
         throw new NotImplementedException();
     }
 
     public async Task<Response<List<Category>>> GetAll()
-        => await _client.GetFromJsonAsync<
-               Response<List<Category>>>("v1/categories")
-           ?? new Response<List<Category>>("Erro ao recuperar categorias");
+    {
+        throw new NotImplementedException();
+    }
 }
