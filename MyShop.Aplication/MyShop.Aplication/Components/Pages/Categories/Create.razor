@@ -1,0 +1,27 @@
+@page "/categorias/cadastrar"
+
+<div>
+    
+    @if (MessageSuccess is not null)
+    {
+        <div class="alert alert-success" role="alert">
+            @MessageSuccess
+        </div>
+        
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            @MessageError
+        </div>
+    }
+    
+    <form>
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="email" class="form-control" id="title" @bind="InputModel.Title"  placeholder="Digite o Título da categoria">
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+
+</div>

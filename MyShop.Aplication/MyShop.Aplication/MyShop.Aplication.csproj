@@ -17,4 +17,8 @@
       <AdditionalFiles Include="Components\Pages\Categories\List.razor" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Remove="Components\Pages\Categories\List.razor" />
+    </ItemGroup>
+
 </Project>
