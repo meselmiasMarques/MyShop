@@ -11,5 +11,5 @@ public class Product
     public string ImageUrl { get; set; } = string.Empty;
     public int CategoryId { get; set; }
     [JsonIgnore]
-    public Category Category { get; set; } =  new ();
+    public Category Category { get; set; }
 }

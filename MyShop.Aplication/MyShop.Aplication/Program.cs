@@ -15,6 +15,9 @@ builder.Services.AddHttpClient(Configuration.ApiName, client =>
 
 
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+builder.Services.AddTransient<IProductHandler, ProductHandler>();
+
+
 
 
 var app = builder.Build();

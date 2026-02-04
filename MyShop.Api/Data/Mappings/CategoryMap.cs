@@ -8,14 +8,17 @@ public class CategoryMap : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
+        builder.ToTable("AM7_Category");
+
         builder.HasKey(c => c.Id);
         
-        builder.ToTable("AM7_Category");
+        builder.Property(c => c.Id)
+            .ValueGeneratedOnAdd()
+            .UseIdentityColumn(1, 1);
         
         builder.Property(c => c.Title)
             .IsRequired()
             .HasMaxLength(50)
             .HasColumnType("varchar(50)");
-        
     }
 }

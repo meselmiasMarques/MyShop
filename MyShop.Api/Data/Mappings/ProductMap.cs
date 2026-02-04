@@ -12,6 +12,10 @@ public class ProductMap : IEntityTypeConfiguration<Product>
        
        builder.HasKey(p => p.Id);
        
+       builder.Property(c => c.Id)
+           .ValueGeneratedOnAdd()
+           .UseIdentityColumn(1, 1);
+       
        builder.Property(p => p.Name)
             .IsRequired()
             .HasMaxLength(50)
