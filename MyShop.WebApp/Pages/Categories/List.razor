@@ -1,5 +1,5 @@
 @page "/categorias"
-
+@using MyShop.App.Components
 
 <div>
     <button class="btn btn-primary" @onclick="NewCategory" >Nova Categoria</button>
@@ -10,6 +10,8 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Titulo</th>
+            <th scope="col">#</th>
+
         </tr>
         </thead>
         <tbody>
@@ -18,8 +20,24 @@
             <tr>
                 <th scope="row">@category.Id</th>
                 <td>@category.Title</td>
+                <td>
+                    <button class="btn btn-warning"
+                            @onclick="() => Edit(category.Id)">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                
+                    <button class="btn btn-danger"
+                            @onclick="() => Delete(category.Id)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
             </tr>
         }
         </tbody>
     </table>
 </div>
+
+<ConfirmModal @ref="confirmModal"
+              Title="Excluir Categoria"
+              Message="Tem certeza que deseja excluir essa categoria?"
+              OnClose="HandleConfirmation" />

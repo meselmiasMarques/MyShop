@@ -8,5 +8,5 @@ public class EditorCategoryRequest
     
     [Required(ErrorMessage = "O Campo Nome é Obrigatório")]
     [MaxLength(50, ErrorMessage = "Você ultrapassou o limite de 50 Caracteres")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 }

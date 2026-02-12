@@ -32,6 +32,13 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
         return await result.Content.ReadFromJsonAsync<Response<Category>>() 
                ?? new Response<Category>(null,400,"Falha ao carregar Categoria");
     }
+    
+    public async Task<Response<Category>> DeleteAsync(int id)
+    {
+        var result = await _client.DeleteAsync($"v1/categories/{id}");
+        return await result.Content.ReadFromJsonAsync<Response<Category>>() 
+               ?? new Response<Category>(null,400,"Falha ao carregar Categoria");
+    }
 
     public async Task<Response<Category>> GetByIdAsync(EditorCategoryRequest model)
     {

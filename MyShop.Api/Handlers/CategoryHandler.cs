@@ -59,6 +59,18 @@ public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
 
     }
 
+    public async Task<Response<Category>> DeleteAsync(int id)
+    {
+        var category = await _repository.GetAsync(id);
+        if (category == null)
+            return new Response<Category>(null, 404, "Categoria não encontrada");
+        
+        await _repository.DeleteAsync(category);
+        
+        return new Response<Category>(null, 200,"Categoria excluido com sucesso");
+
+    }
+    
     public async Task<Response<Category>> GetByIdAsync(EditorCategoryRequest model)
     {
         var category = await _repository.GetAsync(model.Id);
