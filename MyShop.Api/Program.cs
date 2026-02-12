@@ -8,6 +8,18 @@ using MyShop.Core.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 1️⃣ Adiciona política de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5174")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 builder.Services.AddControllers();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -37,8 +49,6 @@ builder.Services.AddSwaggerGen(p =>
     });
 });
 
-
-
 var app = builder.Build();
 
 
@@ -51,6 +61,6 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
-
+app.UseCors("AllowBlazorApp");
 app.MapControllers();
 app.Run();
