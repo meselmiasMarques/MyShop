@@ -1,0 +1,14 @@
+@page "/categorias/cadastrar"
+
+<div>
+    
+    <EditForm OnSubmit="OnValidSubmitAsync">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="email" class="form-control" id="title" @bind="InputModel.Title"  
+                   placeholder="Digite o Título da categoria">
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </EditForm>
+
+</div>
