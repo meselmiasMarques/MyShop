@@ -14,9 +14,8 @@ public partial class List : ComponentBase
 
     [Inject] 
     public ICategoryHandler Handler { get; set; } = null!;
-    
-    [Inject]
-    private NavigationManager _navigationManager { get; set; }
+
+    [Inject] private NavigationManager _navigationManager { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,7 +44,6 @@ public partial class List : ComponentBase
     {
         if (confirmed)
         {
-            Console.WriteLine($"Excluir categoria {_categoryToDelete}");
            var result =  await Handler.DeleteAsync(_categoryToDelete);
 
            if (result.IsSuccess)

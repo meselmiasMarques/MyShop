@@ -10,6 +10,5 @@ public class Product
     public decimal Price { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
     public int CategoryId { get; set; }
-    [JsonIgnore]
     public Category Category { get; set; }
 }

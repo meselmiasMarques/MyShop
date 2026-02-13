@@ -6,15 +6,15 @@ namespace MyShop.App.Pages.Categories;
 
 public partial class Create : ComponentBase
 {
-    private string? message;
+    private string? message =  string.Empty;
     
     [Parameter] 
     public EditorCategoryRequest InputModel { get; set; } = new();
 
-    [Inject] private NavigationManager _navigationManager { get; set; } 
+    [Inject] private NavigationManager _navigationManager { get; set; } = null!;
 
 
-    [Inject] private ICategoryHandler _handler { get; set; } 
+    [Inject] private ICategoryHandler _handler { get; set; } = null!;
     
     
     #region Methods
@@ -32,7 +32,7 @@ public partial class Create : ComponentBase
             }
             else
             {
-                message = "Erro ao cadastrar categoria.";
+                message = result.Message;
             }
         }
         catch 

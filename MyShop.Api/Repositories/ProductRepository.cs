@@ -10,6 +10,7 @@ public class ProductRepository(AppDbcontext db)
 
     public async Task<List<Product>> GetAsync()
         => await _db.Products
+            .Include(p => p.Category)
             .AsNoTracking()
             .ToListAsync();
 

@@ -1,0 +1,51 @@
+@page "/produtos"
+@using System.Globalization
+
+<div>
+    <button class="btn btn-primary" @onclick="Add" >Novo Produto</button>
+</div>
+<div class="container-fluid">
+    @if (Products != null || Products.Count != 0)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Categoria</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var product in Products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price.ToString("c",new CultureInfo("pt-br"))</td>
+                    <td>@product.Category.Title</td>
+                    <td>
+                        <button class="btn btn-warning"
+                                @onclick="() => Edit(product.Id)">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+
+                        <button class="btn btn-danger"
+                                @onclick="() => Delete(product.Id)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>
+            Carregando..
+        </h3>
+    }
+</div>
