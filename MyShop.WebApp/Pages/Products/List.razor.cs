@@ -41,9 +41,12 @@ public partial class List : ComponentBase
 
     private void Edit(int id)
     {
+        NavigationManager.NavigateTo($"produtos/atualizar/{id}");
     }
 
     private void Delete(int id)
     {
+       // NavigationManager.NavigateTo($"produtos/ex/{id}");
+
     }
 }
