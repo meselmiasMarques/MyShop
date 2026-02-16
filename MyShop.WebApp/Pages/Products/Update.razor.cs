@@ -40,42 +40,53 @@ public partial class Update : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         InputModel.Id = Id;
-        var result = await ProductHandler.GetByIdAsync(InputModel);
-        Console.WriteLine($"Console {InputModel.Id}");
-        Console.WriteLine($"Console {InputModel.Name}");
-        if (result.IsSuccess)
+        try
         {
-            InputModel.Id = result.Data.Id;
-            InputModel.Name = result.Data.Name;
-            InputModel.Description = result.Data.Description;
-            InputModel.Price = result.Data.Price;
-            InputModel.ImageUrl = result.Data.ImageUrl;
-            InputModel.CategoryId = result.Data.CategoryId;
-        }
+            var result = await ProductHandler.GetByIdAsync(InputModel);
+            if (result.IsSuccess)
+            {
+                InputModel.Name = result.Data?.Name;
+                InputModel.Description = result.Data.Description;
+                InputModel.Price = result.Data.Price;
+                InputModel.ImageUrl = result.Data.ImageUrl;
+                InputModel.CategoryId = result.Data.CategoryId;
+            }
 
-        var resultCategory = await CategoryHandler.GetAll();
-        if (resultCategory.IsSuccess)
-        {
-            Categories = resultCategory.Data;
+            var resultCategory = await CategoryHandler.GetAll();
+            if (resultCategory.IsSuccess)
+            {
+                Categories = resultCategory.Data;
+            }
+
         }
-        
+        catch (Exception e)
+        {
+            Message = e.Message;
+        }
 
     }
 
     protected async Task OnValidSubmitAsync()
     {
-        var result = await ProductHandler.UpdateAsync(InputModel,InputModel.Id);
-        if (result.IsSuccess)
+        try
         {
-            NavigationManager.NavigateTo("/produtos");
-        }
-        else
-        {
-            while (Task.Delay(2000).IsCompleted)
+            var result = await ProductHandler.UpdateAsync(InputModel, InputModel.Id);
+            if (result.IsSuccess)
             {
-                Message = result.Message;
+                NavigationManager.NavigateTo("/produtos");
             }
-            
+            else
+            {
+                while (Task.Delay(2000).IsCompleted)
+                {
+                    Message = result.Message ?? "Categoria atualizada com sucesso";
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            Message = e.Message;
         }
     }
 

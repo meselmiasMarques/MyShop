@@ -23,6 +23,26 @@ public class ProductController(IProductHandler handler) : ControllerBase
         
         return Created($"{result.Data?.Id}", result);
     }
+    
+    [HttpPut("v1/products/{id:int}")]
+    public async Task<IActionResult> PutAsync([FromBody]  EditorProductRequest request, int id)
+    {
+
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new Response<dynamic>(null, 500,
+                    ModelState.GetErros().ToString()));
+            var result = await _handler.UpdateAsync(request, id);
+
+            return Ok(new Response<dynamic>(result, 200, "Produto atualizado com sucesso"));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<dynamic>( null,500, "Erro interno no servidor"));
+
+        }
+    }
 
     [HttpGet("v1/products")]
     public async Task<IActionResult> GetAsync()
