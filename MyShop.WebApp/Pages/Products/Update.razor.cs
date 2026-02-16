@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using MyShop.App.Components.Alerts.enums;
+using MyShop.App.Components.Alerts.Services;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
 using MyShop.Core.Requests.ProductRequest;
@@ -32,7 +34,10 @@ public partial class Update : ComponentBase
     
     [Inject]
     protected ICategoryHandler CategoryHandler { get; set; } = null!;
-    
+
+    [Inject] 
+    protected AlertService Alert { get; set; } = null!;
+
     #endregion
 
     #region Methods
@@ -56,6 +61,7 @@ public partial class Update : ComponentBase
             if (resultCategory.IsSuccess)
             {
                 Categories = resultCategory.Data;
+              
             }
 
         }
@@ -74,19 +80,16 @@ public partial class Update : ComponentBase
             if (result.IsSuccess)
             {
                 NavigationManager.NavigateTo("/produtos");
+                Alert.ShowAlert(result.Message ?? "Produto atualizado com Sucesso !", AlertType.Info);
             }
             else
             {
-                while (Task.Delay(2000).IsCompleted)
-                {
-                    Message = result.Message ?? "Categoria atualizada com sucesso";
-                }
-
+                Alert.ShowAlert(result.Message ?? "Produto atualizado com Sucesso !", AlertType.Danger);
             }
         }
         catch (Exception e)
         {
-            Message = e.Message;
+            Alert.ShowAlert(e.Message ?? "Produto atualizado com Sucesso !", AlertType.Danger);
         }
     }
 

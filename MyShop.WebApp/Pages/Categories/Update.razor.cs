@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using MyShop.App.Components.Alerts.enums;
+using MyShop.App.Components.Alerts.Services;
 using MyShop.Core.Handlers;
 using MyShop.Core.Requests.Categories;
 
@@ -19,6 +21,8 @@ public partial class Update : ComponentBase
 
     [Inject] 
     private ICategoryHandler Handler { get; set; } = null!;
+
+    [Inject] protected AlertService Alert { get; set; } = null!;
 
 
     protected override async Task OnInitializedAsync()
@@ -41,17 +45,17 @@ public partial class Update : ComponentBase
             if (result.IsSuccess)
             {
                 NavigationManager.NavigateTo("/categorias");
-                _message = "Categoria cadastrada com sucesso!";
+                Alert.ShowAlert(result.Message, AlertType.Success);
                 InputModel = new();
             }
             else
             {
-                _message = "Erro ao cadastrar categoria.";
+               Alert.ShowAlert(result.Message, AlertType.Warning);
             }
         }
-        catch 
+        catch(Exception ex)
         {
-            _message = "Erro ao cadastrar categoria.";
+            Alert.ShowAlert(ex.Message, AlertType.Danger);
         }
     }
 }

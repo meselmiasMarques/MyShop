@@ -1,0 +1,74 @@
+@inject AlertService AlertService
+@using MyShop.App.Components.Alerts.enums
+@using MyShop.App.Components.Alerts.Models
+@implements IDisposable
+
+@if (_alert != null)
+{
+    <div class="alert-container">
+        <div class="alert @GetBootstrapClass() alert-dismissible fade show shadow-sm" role="alert">
+            <div class="d-flex align-items-center">
+                <span class="me-2">@GetIcon()</span>
+                <span class="flex-grow-1">@_alert.Message</span>
+                <button type="button" class="btn-close btn-sm ms-2" @onclick="Close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private AlertMessage? _alert;
+
+    protected override void OnInitialized()
+    {
+        AlertService.OnAlert += ShowAlert;
+    }
+
+    private void ShowAlert(AlertMessage message)
+    {
+        _alert = message;
+        StateHasChanged();
+        _ = AutoClose();
+    }
+
+    private async Task AutoClose()
+    {
+        await Task.Delay(3000);
+        _alert = null;
+        StateHasChanged();
+    }
+
+    private string GetBootstrapClass()
+    {
+        return _alert?.Type switch
+        {
+            AlertType.Success => "alert-success",
+            AlertType.Danger => "alert-danger",
+            AlertType.Warning => "alert-warning",
+            AlertType.Info => "alert-info",
+            _ => "alert-info"
+        };
+    }
+
+    private string GetIcon()
+    {
+        return _alert?.Type switch
+        {
+            AlertType.Success => "✔️",
+            AlertType.Danger => "❌",
+            AlertType.Warning => "⚠️",
+            AlertType.Info => "ℹ️",
+            _ => "ℹ️"
+        };
+    }
+
+    private void Close()
+    {
+        _alert = null;
+    }
+
+    public void Dispose()
+    {
+        AlertService.OnAlert -= ShowAlert;
+    }
+}

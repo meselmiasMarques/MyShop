@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using MyShop.App.Components.Alerts.enums;
+using MyShop.App.Components.Alerts.Services;
 using MyShop.Core.Handlers;
 using MyShop.Core.Requests.Categories;
 
@@ -16,6 +18,9 @@ public partial class Create : ComponentBase
 
     [Inject] private ICategoryHandler _handler { get; set; } = null!;
     
+    [Inject] 
+    protected AlertService Alert { get; set; } = null!;
+    
     
     #region Methods
 
@@ -27,17 +32,19 @@ public partial class Create : ComponentBase
             if (result.IsSuccess)
             {
                 _navigationManager.NavigateTo("/categorias");
-                message = "Categoria cadastrada com sucesso!";
+                Alert.ShowAlert(result.Message ?? "Categoria criada com sucesso", AlertType.Success);
                 InputModel = new();
             }
             else
             {
-                message = result.Message;
+                Alert.ShowAlert(result.Message, AlertType.Danger);
+
             }
         }
         catch 
         {
-            message = "Erro ao cadastrar categoria.";
+            Alert.ShowAlert("Erro interno no servidor", AlertType.Danger);
+
         }
     }
 

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MyShop.App;
+using MyShop.App.Components.Alerts.Services;
 using MyShop.App.Handlers;
 using MyShop.Core.Handlers;
 
@@ -14,6 +15,10 @@ builder.Services.AddHttpClient(Configuration.ApiName, client =>
 
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 builder.Services.AddTransient<IProductHandler, ProductHandler>();
+
+
+builder.Services.AddScoped<AlertService>();
+
 
 
 

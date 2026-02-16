@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using MyShop.App.Components.Alerts.enums;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
 using MyShop.Core.Requests.ProductRequest;
@@ -46,12 +47,13 @@ public partial class Create : ComponentBase
         var result = await ProductHandler.CreateAsync(InputModel);
         if (result.IsSuccess)
         {
-            Message = result.Message ?? "Sucesso";
             NavigationManager.NavigateTo("/produtos");
+            AlertService.ShowAlert(result.Message ?? "Produto Cadastrado com sucesso !", AlertType.Success);
+
         }
         else
         {
-            Message = result.Message ?? "Erro Ao Inserir Produto";
+            AlertService.ShowAlert(result.Message ?? "Erro ao Cadastrar Produto!", AlertType.Danger);
         }
     }
 

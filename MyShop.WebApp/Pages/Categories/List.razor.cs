@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MyShop.App.Components;
+using MyShop.App.Components.Alerts.enums;
+using MyShop.App.Components.Alerts.Services;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
 
@@ -16,6 +18,9 @@ public partial class List : ComponentBase
     public ICategoryHandler Handler { get; set; } = null!;
 
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
+    
+    [Inject] 
+    protected AlertService Alert { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,7 +53,9 @@ public partial class List : ComponentBase
 
            if (result.IsSuccess)
            {
-               _navigationManager.Refresh();
+             var category = Categories.FirstOrDefault(c => c.Id == _categoryToDelete);
+             Categories.Remove(category);
+               Alert.ShowAlert(result.Message ?? "Categoria excluída!", AlertType.Info);
            }
         }
     }
