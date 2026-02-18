@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
+using MyShop.Core.Requests;
 using MyShop.Core.Requests.ProductRequest;
 using MyShop.Core.Responses;
 
@@ -47,6 +48,11 @@ public class ProductHandler (IHttpClientFactory httpClientFactory) : IProductHan
     }
 
     public async Task<Response<List<Product>>> GetAllByCategory(int categoryId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Response<Product>> UploadImage(UploadImageViewModel model, int id)
     {
         throw new NotImplementedException();
     }

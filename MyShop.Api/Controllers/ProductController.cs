@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyShop.Api.Extensions;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
+using MyShop.Core.Requests;
 using MyShop.Core.Requests.ProductRequest;
 using MyShop.Core.Responses;
 
@@ -66,5 +67,25 @@ public class ProductController(IProductHandler handler) : ControllerBase
         var request = new EditorProductRequest { Id = id };
         var result = await _handler.DeleteAsync(request);
         return Ok(result);
+    }
+    
+    [HttpPut("v1/products/uploadImage/{id:int}")]
+    public async Task<IActionResult> UploadImageAsync([FromBody]  UploadImageViewModel request, int id)
+    {
+
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new Response<dynamic>(null, 500,
+                    ModelState.GetErros().ToString()));
+            var result = await _handler.UploadImage(request, id);
+
+            return Ok(new Response<dynamic>(result, 200, "Imagem atualizada com sucesso"));
+        }
+        catch (Exception e) 
+        {
+            return BadRequest(new Response<dynamic>( null,500, "Erro interno no servidor"));
+
+        }
     }
 }

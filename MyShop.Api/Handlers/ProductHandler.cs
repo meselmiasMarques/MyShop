@@ -1,9 +1,11 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using MyShop.Api.Repositories;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
+using MyShop.Core.Requests;
 using MyShop.Core.Requests.Categories;
 using MyShop.Core.Requests.ProductRequest;
 using MyShop.Core.Responses;
@@ -93,5 +95,35 @@ public class ProductHandler(ProductRepository repository) : IProductHandler
     public async Task<Response<List<Product>>> GetAllByCategory(int categoryId)
     { 
         throw new NotImplementedException();
+    }
+
+    public async Task<Response<Product>> UploadImage(UploadImageViewModel model, int id)
+    {
+        var fileName = $"{Guid.NewGuid().ToString()}.jpg";
+
+        var data = new Regex(@"ˆdata:imageV[a-z]+;base64,")
+                .Replace(model.Base64Image, "");
+        var bytes = Convert.FromBase64String(data);
+
+        try
+        {
+            await File.WriteAllBytesAsync($"wwwroot/images/{fileName}", bytes);
+        }
+        catch (Exception ex)
+        {
+            return new Response<Product>(null, 500, ex.Message);
+        }
+
+        var product = await _repository.GetAsync(id);
+        if (product == null)
+        {
+            return new Response<Product>(null,404, "Produto não encontrado");
+            
+        }
+        
+        product.ImageUrl = $"https://localhost:0000{fileName}";
+        
+        await _repository.UpdateAsync(product);
+        return new Response<Product>(product,200,"imagem importada com sucesso");
     }
 }
