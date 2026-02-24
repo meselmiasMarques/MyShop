@@ -97,12 +97,12 @@ public class ProductHandler(ProductRepository repository) : IProductHandler
         throw new NotImplementedException();
     }
 
-    public async Task<Response<Product>> UploadImage(UploadImageViewModel model, int id)
+    public async Task<Response<Product>> UploadImage(UploadImageViewModel model,int id)
     {
         var fileName = $"{Guid.NewGuid().ToString()}.jpg";
 
-        var data = new Regex(@"ˆdata:imageV[a-z]+;base64,")
-                .Replace(model.Base64Image, "");
+        var data = new Regex(@"^data:image\/[a-z]+;base64,")
+            .Replace(model.Base64Image, "");
         var bytes = Convert.FromBase64String(data);
 
         try
@@ -118,12 +118,18 @@ public class ProductHandler(ProductRepository repository) : IProductHandler
         if (product == null)
         {
             return new Response<Product>(null,404, "Produto não encontrado");
-            
         }
         
-        product.ImageUrl = $"https://localhost:0000{fileName}";
+        product.ImageUrl = $"https://localhost:0000/images/{fileName}";
         
-        await _repository.UpdateAsync(product);
-        return new Response<Product>(product,200,"imagem importada com sucesso");
+        try
+        {
+            await _repository.UpdateAsync(product);
+            return new Response<Product>(product, 200, "imagem importada com sucesso");
+        }
+        catch (Exception e)
+        {
+            return new Response<Product>(null, 500, e.Message);
+        }
     }
 }

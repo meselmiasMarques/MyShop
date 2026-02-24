@@ -1,5 +1,7 @@
+
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 using MyShop.Api.Data;
 using MyShop.Api.Handlers;
 using MyShop.Api.Repositories;
@@ -56,8 +58,9 @@ builder.Services.AddSwaggerGen(p =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 
-if (app.Environment.IsDevelopment())
+
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
@@ -66,6 +69,7 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
+
 app.UseCors("AllowBlazorApp");
 app.MapControllers();
 app.Run();

@@ -54,6 +54,10 @@ public class ProductHandler (IHttpClientFactory httpClientFactory) : IProductHan
 
     public async Task<Response<Product>> UploadImage(UploadImageViewModel model, int id)
     {
-        throw new NotImplementedException();
+        var request = new UploadImageViewModel { Base64Image = model.Base64Image };
+        
+        var result = await _client.PostAsJsonAsync($"v1/products/upload-image/{id}",request);
+        return await result.Content.ReadFromJsonAsync<Response<Product>>()
+               ?? new Response<Product>(null, 400, "Erro ao importar imagem");
     }
 }

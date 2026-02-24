@@ -69,8 +69,8 @@ public class ProductController(IProductHandler handler) : ControllerBase
         return Ok(result);
     }
     
-    [HttpPut("v1/products/uploadImage/{id:int}")]
-    public async Task<IActionResult> UploadImageAsync([FromBody]  UploadImageViewModel request, int id)
+    [HttpPost("v1/products/upload-image/{id:int}")]
+    public async Task<IActionResult> UploadImageAsync([FromBody]  UploadImageViewModel request,int id)
     {
 
         try
