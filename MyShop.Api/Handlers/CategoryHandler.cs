@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using MyShop.Api.Repositories;
 using MyShop.Core.Handlers;
 using MyShop.Core.Model;
@@ -11,9 +8,7 @@ namespace MyShop.Api.Handlers;
 
 public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
 {
-    private readonly CategoryRepository _repository = repository;
-
-
+    
     public async Task<Response<Category>> CreateAsync(EditorCategoryRequest model)
     {
         var category = new Category
@@ -24,7 +19,7 @@ public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
 
         try
         {
-            await _repository.CreateAsync(category);
+            await repository.CreateAsync(category);
             return new Response<Category>(category,201,"Categoria criada com sucesso");
         }
         catch
@@ -36,24 +31,24 @@ public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
 
     public async Task<Response<Category>> UpdateAsync(EditorCategoryRequest model, int id)
     {
-        var category = await _repository.GetAsync(id);
+        var category = await repository.GetAsync(id);
         if (category == null)
             return new Response<Category>(null, 404, "Categoria não encontrada");
         
         category.Title = model.Title;
         
-        await _repository.UpdateAsync(category);
+        await repository.UpdateAsync(category);
         return new Response<Category>(category,200,"Categoria atualizada com sucesso");
     }
     
 
     public async Task<Response<Category>> DeleteAsync(EditorCategoryRequest model)
     {
-        var category = await _repository.GetAsync(model.Id);
+        var category = await repository.GetAsync(model.Id);
         if (category == null)
             return new Response<Category>(null, 404, "Categoria não encontrada");
         
-        await _repository.DeleteAsync(category);
+        await repository.DeleteAsync(category);
         
         return new Response<Category>(null, 200,"Categoria excluido com sucesso");
 
@@ -61,11 +56,11 @@ public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
 
     public async Task<Response<Category>> DeleteAsync(int id)
     {
-        var category = await _repository.GetAsync(id);
+        var category = await repository.GetAsync(id);
         if (category == null)
             return new Response<Category>(null, 404, "Categoria não encontrada");
         
-        await _repository.DeleteAsync(category);
+        await repository.DeleteAsync(category);
         
         return new Response<Category>(null, 200,"Categoria excluido com sucesso");
 
@@ -73,7 +68,7 @@ public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
     
     public async Task<Response<Category>> GetByIdAsync(EditorCategoryRequest model)
     {
-        var category = await _repository.GetAsync(model.Id);
+        var category = await repository.GetAsync(model.Id);
         if (category == null)
             return new Response<Category>(null, 404, "Categoria não encontrada");
         
@@ -85,7 +80,7 @@ public class CategoryHandler(CategoryRepository repository) : ICategoryHandler
     {
         try
         {
-           var categories = await _repository.GetAsync();
+           var categories = await repository.GetAsync();
            return new Response<List<Category>>(categories, 200);
         }
         catch

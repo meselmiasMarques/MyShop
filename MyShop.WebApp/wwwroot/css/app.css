@@ -139,3 +139,18 @@ code {
         opacity: 1;
     }
 }
+.table-responsive {
+    overflow-x: auto; /* Adds horizontal scrollbar if content overflows */
+}
+
+/* Optional: Basic table styling for better presentation */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}

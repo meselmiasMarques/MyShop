@@ -1,6 +1,7 @@
 @page "/categorias"
+@using Microsoft.AspNetCore.Authorization
 @using MyShop.App.Components
-
+@attribute [Authorize]
 <div>
     <button class="btn btn-primary" @onclick="NewCategory" >Nova Categoria</button>
 </div>
@@ -20,12 +21,12 @@
                 <th scope="row">@category.Id</th>
                 <td>@category.Title</td>
                 <td>
-                    <button class="btn btn-warning"
+                    <button class="btn btn-info"
                             @onclick="() => Edit(category.Id)">
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>
                 
-                    <button class="btn btn-danger"
+                    <button class="btn btn-primary"
                             @onclick="() => Delete(category.Id)">
                         <i class="bi bi-trash"></i>
                     </button>

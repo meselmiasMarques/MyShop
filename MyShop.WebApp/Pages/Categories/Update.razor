@@ -1,5 +1,6 @@
 @page "/categorias/atualizar/{id:int}"
-
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 <div>
     
     <EditForm Model="InputModel" OnValidSubmit="OnValidSubmitAsync">

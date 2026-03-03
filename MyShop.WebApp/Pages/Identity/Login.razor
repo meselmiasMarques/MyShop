@@ -1,0 +1,24 @@
+@page "/login"
+@using MyShop.App.Handlers
+
+<h3>Login</h3>
+
+<EditForm Model="InputModel" OnValidSubmit="OnSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label>Email</label>
+        <input class="form-control" @bind="InputModel.Email"/>
+    </div>
+
+    <div class="mb-3">
+        <label>Password</label>
+        <input type="password" class="form-control" @bind="InputModel.Password"/>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Entrar</button>
+
+</EditForm>
+
+
+

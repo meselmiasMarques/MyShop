@@ -1,7 +1,8 @@
 @page "/produtos/cadastrar"
+@using Microsoft.AspNetCore.Authorization
 @inject AlertService AlertService
-
-<div>
+@attribute [Authorize]
+<div class="container-fluid m-auto">
     <EditForm Model="InputModel" OnValidSubmit="OnValidSubmitAsync">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -37,7 +38,7 @@
         <div class="form-group">
             <label for="imagem">Imagem</label>
             <input 
-                type="text"
+                type="file"
                 class="form-control" 
                 id="imagem" 
                 @bind-value="InputModel.ImageUrl"

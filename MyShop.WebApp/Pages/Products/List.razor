@@ -1,15 +1,16 @@
 @page "/produtos"
 @using System.Globalization
+@using Microsoft.AspNetCore.Authorization
 @using MyShop.App.Components
-
+@attribute [Authorize]
 
 <div>
     <button class="btn btn-primary" @onclick="Add" >Novo Produto</button>
 </div>
-<div class="container-fluid">
+<div class="container-fluid m-auto">
     @if (Products != null || Products.Count != 0)
     {
-        <table class="table">
+        <table class="table-responsive">
             <thead>
             <tr>
                 <th scope="col"></th>
@@ -29,12 +30,12 @@
                     <td>@product.Price.ToString("c",new CultureInfo("pt-br"))</td>
                     <td>@product.Category.Title</td>
                     <td>
-                        <button class="btn btn-warning"
+                        <button class="btn btn-info"
                                 @onclick="() => Edit(product.Id)">
                             <i class="bi bi-arrow-clockwise"></i>
                         </button>
 
-                        <button class="btn btn-danger"
+                        <button class="btn btn-primary"
                                 @onclick="() => Delete(product.Id)">
                             <i class="bi bi-trash"></i>
                         </button>

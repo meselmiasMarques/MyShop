@@ -4,9 +4,9 @@ using MyShop.Core.Model;
 
 namespace MyShop.Api.Repositories;
 
-public class ProductRepository(AppDbcontext db)
+public class ProductRepository(AppDbContext db)
 {
-    private readonly AppDbcontext _db = db;
+    private readonly AppDbContext _db = db;
 
     public async Task<List<Product>> GetAsync()
         => await _db.Products

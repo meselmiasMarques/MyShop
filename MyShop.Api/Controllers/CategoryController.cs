@@ -1,4 +1,5 @@
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyShop.Api.Extensions;
 using MyShop.Api.Handlers;
@@ -9,7 +10,7 @@ using MyShop.Core.Requests.Categories;
 using MyShop.Core.Responses;
 
 namespace MyShop.Api.Controllers;
-
+[Authorize]
 [ApiController]
 public class CategoryController(
     ILogger<CategoryController> logger, 
@@ -27,16 +28,16 @@ public class CategoryController(
             return BadRequest(ModelState);
         }
         
-       var result  = await _handler.CreateAsync(request);
-       return result.IsSuccess ? Created($"/{result.Data?.Id}", result) :  BadRequest(result);
+        var result  = await _handler.CreateAsync(request);
+        return result.IsSuccess ? Created($"/{result.Data?.Id}", result) :  BadRequest(result);
     }
     
     [HttpGet("v1/categories")]
     public async Task<IActionResult> GetAsync()
     {
-        var result = await _handler.GetAll();
-        
-        return result.IsSuccess ? Ok(result) : BadRequest(result);
+            var result = await _handler.GetAll();
+
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
     
     [HttpGet("v1/categories/{id:int}")]

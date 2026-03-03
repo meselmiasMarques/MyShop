@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyShop.Api.Extensions;
 using MyShop.Core.Handlers;
@@ -13,7 +14,7 @@ public class ProductController(IProductHandler handler) : ControllerBase
 {
     private readonly IProductHandler _handler = handler;
 
-
+    [Authorize]
     [HttpPost("v1/products")]
     public async Task<IActionResult> PostAsync([FromBody]  EditorProductRequest Request)
     {
@@ -25,6 +26,7 @@ public class ProductController(IProductHandler handler) : ControllerBase
         return Created($"{result.Data?.Id}", result);
     }
     
+    [Authorize]
     [HttpPut("v1/products/{id:int}")]
     public async Task<IActionResult> PutAsync([FromBody]  EditorProductRequest request, int id)
     {
@@ -61,6 +63,7 @@ public class ProductController(IProductHandler handler) : ControllerBase
         return Ok(result);
     }
     
+    [Authorize]
     [HttpDelete("v1/products/{id:int}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
@@ -69,6 +72,7 @@ public class ProductController(IProductHandler handler) : ControllerBase
         return Ok(result);
     }
     
+    [Authorize]
     [HttpPost("v1/products/upload-image/{id:int}")]
     public async Task<IActionResult> UploadImageAsync([FromBody]  UploadImageViewModel request,int id)
     {
